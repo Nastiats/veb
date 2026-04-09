@@ -5,7 +5,7 @@ import by.bstu.po15.ats.web.entity.UsersInfo;
 import by.bstu.po15.ats.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 
 @Service
 public class UserService
@@ -25,6 +25,19 @@ public class UserService
         repository.save(user);
 
         return "User Registration Successfull.";
+    }
+
+    public String validateUser(String emailId, String password) {
+
+        // Verify in data base
+        List<UsersInfo> users = repository.findByEmailIdAndPassword(emailId, password);
+
+        if (users.size() == 0) {
+            return "Invalid Credentilas. Please Try again";
+        } else {
+            return "Welcome to FaceBook, " + emailId;
+        }
+
     }
 
 }

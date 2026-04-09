@@ -44,4 +44,28 @@ public class UserController
 
         return modelAndView;
     }
+
+    // To load the Login Page
+    @GetMapping("login")
+    public ModelAndView loadLoginPage() {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("login");
+
+        return modelAndView;
+    }
+
+    @PostMapping("/loginCheck")
+    public ModelAndView validateUser(HttpServletRequest request) {
+
+        String result = userService.validateUser(request.getParameter("email"), request.getParameter("pwd"));
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("result");
+        modelAndView.addObject("message", result);
+
+        return modelAndView;
+    }
+
+
 }
