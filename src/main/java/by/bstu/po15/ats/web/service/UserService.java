@@ -24,7 +24,7 @@ public class UserService
 
         repository.save(user);
 
-        return "User Registration Successfull.";
+        return "Успешная регистрация.";
     }
 
     public String validateUser(String emailId, String password) {
@@ -33,9 +33,9 @@ public class UserService
         List<UsersInfo> users = repository.findByEmailIdAndPassword(emailId, password);
 
         if (users.size() == 0) {
-            return "Invalid Credentilas. Please Try again";
+            return "Ошибка, попробуйте еще раз!";
         } else {
-            return "Welcome to FaceBook, " + emailId;
+            return "Вход пользователя  " + emailId;
         }
 
     }
