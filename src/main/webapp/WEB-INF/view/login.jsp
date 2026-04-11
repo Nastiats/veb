@@ -1,17 +1,29 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 
+<!DOCTYPE html>
 <html>
-  <head lang="ru">
-         <meta charset="UTF-8">
-         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>Форма входа</title>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <title>Log in with your account</title>
+</head>
 
-    <form action="loginCheck" method="POST">
-       Email : <input type="text" name="email" /> <br />
-       Пароль : <input type="password" name="pwd" /> <br />
-       <input type="submit" value="Вход" /> <br />
-     </form>
-  </body>
+<body>
+<sec:authorize access="isAuthenticated()">
+  <% response.sendRedirect("/"); %>
+</sec:authorize>
+<div>
+  <form method="POST" action="/login">
+    <h2>Вход в систему</h2>
+    <div>
+      <input name="username" type="text" placeholder="Username"
+             autofocus="true"/>
+      <input name="password" type="password" placeholder="Password"/>
+      <button type="submit">Log In</button>
+      <h4><a href="/registration">Зарегистрироваться</a></h4>
+    </div>
+  </form>
+</div>
+
+</body>
 </html>
