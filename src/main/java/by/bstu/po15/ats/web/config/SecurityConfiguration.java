@@ -12,13 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class SecurityConfiguration {
-
-    private final MyUserDetailService myUserDetailService;
+public class SecurityConfiguration
+{   private final MyUserDetailService myUserDetailService;
 
     // Constructor injection for MyUserDetailService
-    public SecurityConfiguration(MyUserDetailService myUserDetailService) {
-        this.myUserDetailService = myUserDetailService;
+    public SecurityConfiguration(MyUserDetailService myUserDetailService)
+    {   this.myUserDetailService = myUserDetailService;
     }
 
     /**
@@ -29,10 +28,10 @@ public class SecurityConfiguration {
      * @throws Exception in case of any configuration error
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.authorizeHttpRequests(
-                        authorize -> {
-                            // Permit access to static resources and login, home, and error pages
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception
+    {   return httpSecurity.authorizeHttpRequests(
+                        authorize ->
+                        {   // Permit access to static resources and login, home, and error pages
                             authorize.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
                             authorize.requestMatchers("/login", "/error/**", "/logout", "/", "/home").permitAll();
                             // Restrict access to admin and user pages based on roles
@@ -44,13 +43,12 @@ public class SecurityConfiguration {
                 ).formLogin(formLogin -> formLogin
                         .loginPage("/login")  // Custom login page
                         .defaultSuccessUrl("/", true)  // Redirect to home after successful login
-                        .permitAll())
-                .logout(logout -> logout.logoutUrl("/logout")
+                        .permitAll()
+                ).logout(logout -> logout.logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")  // Redirect to login page after logout
                         .permitAll()
-                )
-                .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF for simplicity (not recommended for production)
-                .build();
+                ).csrf(AbstractHttpConfigurer::disable  // Disable CSRF for simplicity (not recommended for production)
+                ).build();
     }
 
     /**
@@ -59,8 +57,8 @@ public class SecurityConfiguration {
      * @return the configured UserDetailsService
      */
     @Bean
-    public UserDetailsService userDetailService() {
-        return myUserDetailService;
+    public UserDetailsService userDetailService()
+    {   return myUserDetailService;
     }
 
     /**
@@ -69,8 +67,8 @@ public class SecurityConfiguration {
      * @return the configured AuthenticationProvider
      */
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+    public AuthenticationProvider authenticationProvider()
+    {   DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(myUserDetailService);
         daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
         return daoAuthenticationProvider;
@@ -82,7 +80,7 @@ public class SecurityConfiguration {
      * @return the configured BCryptPasswordEncoder
      */
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public BCryptPasswordEncoder bCryptPasswordEncoder()
+    {   return new BCryptPasswordEncoder();
     }
 }

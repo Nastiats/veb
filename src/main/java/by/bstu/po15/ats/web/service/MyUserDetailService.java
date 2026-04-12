@@ -10,13 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class MyUserDetailService implements UserDetailsService {
-
-    private final MyUserRepository myUserRepository;
+public class MyUserDetailService implements UserDetailsService
+{   private final MyUserRepository myUserRepository;
 
     // Constructor injection for MyUserRepository
-    public MyUserDetailService(MyUserRepository myUserRepository) {
-        this.myUserRepository = myUserRepository;
+    public MyUserDetailService(MyUserRepository myUserRepository)
+    {   this.myUserRepository = myUserRepository;
     }
 
     /**
@@ -27,17 +26,17 @@ public class MyUserDetailService implements UserDetailsService {
      * @throws UsernameNotFoundException if the username is not found
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Users> myUserOptional = myUserRepository.findByUsername(username);
-        if (myUserOptional.isPresent()) {
-            Users myUser = myUserOptional.get();
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    {   Optional<Users> myUserOptional = myUserRepository.findByUsername(username);
+        if (myUserOptional.isPresent())
+        {   Users myUser = myUserOptional.get();
             return org.springframework.security.core.userdetails.User.builder()
-                    .username(myUser.getUsername())
-                    .password(myUser.getPassword())
-                    .roles(myUser.getRoles().split(","))
-                    .build();
-        } else {
-            throw new UsernameNotFoundException(username);
+                    .username(myUser.getUsername()
+                    ).password(myUser.getPassword()
+                    ).roles(myUser.getRoles().split(",")
+                    ).build();
+        } else
+        {   throw new UsernameNotFoundException(username);
         }
     }
 }

@@ -5,16 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ContentController {
-
-    /**
+public class ContentController
+{    /**
      * Maps the home page.
      *
      * @return the view name for the home page
      */
     @GetMapping("/")
-    public String home() {
-        return "home";
+    public String home()
+    {   return "home";
     }
 
     /**
@@ -23,8 +22,8 @@ public class ContentController {
      * @return the view name for the home page
      */
     @GetMapping("/home")
-    public String homeAlias() {
-        return "home";
+    public String homeAlias()
+    {   return "home";
     }
 
     /**
@@ -33,8 +32,8 @@ public class ContentController {
      * @return the view name for the login page
      */
     @GetMapping("/login")
-    public String login() {
-        return "login";
+    public String login()
+    {   return "login";
     }
 
     /**
@@ -43,8 +42,8 @@ public class ContentController {
      * @return the view name for the admin home page
      */
     @GetMapping("/admin/home")
-    public String adminHome() {
-        return "adminhome";
+    public String adminHome()
+    {   return "adminhome";
     }
 
     /**
@@ -53,7 +52,7 @@ public class ContentController {
      * @return the view name for the user home page
      */
     @GetMapping("/user/home")
-    public String userHome() {
-        return "userhome";
+    public String userHome()
+    {   return "userhome";
     }
 }
