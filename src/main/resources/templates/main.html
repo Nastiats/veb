@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="ru">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Продажа билетов</title>
+    <link rel="stylesheet" th:href="@{/css/nst.css}" />
+</head><body>
+<div id="header"><h1>Продажа билетов</h1></div>
+<div id="sidebar">
+    <div th:if="${#authorization.expression('isAuthenticated()')}">
+        <h2><div th:text="${#authentication.name}">LOGIN</div></h2>
+        <a class="btn" th:href="@{/logout}">Выход</a>
+        <a class="btn" th:href="@{/}">Главная страница</a>
+    </div>
+    <div th:unless="${#authorization.expression('isAuthenticated()')}">
+        <a class="btn" th:href="@{/login}">Вход</a>
+        <a class="btn" th:href="@{/register}">Регистрация</a>
+    </div>
+    <div th:if="${#authorization.expression('hasRole(''USER'')')}">
+        <a class="btn" th:href="@{/user/home}">Личный кабинет</a>
+    </div>
+    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+        <a class="btn" th:href="@{/admin/home}">Администрирование</a>
+    </div>
+</div>
+<div id="content">
+    <div th:unless="${#authorization.expression('isAuthenticated()')}">
+        <!-- Вход не  выполнен -->
+        <div th:insert="~{nologin :: body}"></div>
+    </div>
+    <div th:if="${#authorization.expression('isAuthenticated()')}">
+        <!-- Вход выполнен -->
+        <!-- Получаем URI запроса -->
+   <div th:insert="~{${currentUri} :: body}"></div>
+    </div>
+
+</div>
+<div id="footer">&copy; 2026 - Настя Цыганок</div>
+</body>
+</html>

@@ -1,25 +1,29 @@
 package by.bstu.po15.ats.web.config;
 
-import by.bstu.po15.ats.web.service.MyUserDetailService;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration
-{   private final MyUserDetailService myUserDetailService;
+{   @Autowired
+    private UserDetailsService userDetailsService;
 
-    // Constructor injection for MyUserDetailService
-    public SecurityConfiguration(MyUserDetailService myUserDetailService)
-    {   this.myUserDetailService = myUserDetailService;
+    @Bean
+    public static PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(); //From Spring6 no need to set user details , it will automatically set user details, service and password encoded objects to auntication.
     }
-
     /**
      * Configures the security filter chain.
      *
@@ -33,7 +37,7 @@ public class SecurityConfiguration
                         authorize ->
                         {   // Permit access to static resources and login, home, and error pages
                             authorize.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
-                            authorize.requestMatchers("/login", "/error/**", "/logout", "/", "/home").permitAll();
+                            authorize.requestMatchers("/login", "/error/**", "/logout", "/", "/register/**").permitAll();
                             // Restrict access to admin and user pages based on roles
                             authorize.requestMatchers("/admin/**").hasRole("ADMIN");
                             authorize.requestMatchers("/user/**").hasRole("USER");
@@ -51,36 +55,12 @@ public class SecurityConfiguration
                 ).build();
     }
 
-    /**
-     * Configures the UserDetailsService.
-     *
-     * @return the configured UserDetailsService
-     */
-    @Bean
-    public UserDetailsService userDetailService()
-    {   return myUserDetailService;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());      //Just passwordEncoder bean and UserDetailsService bean must be there then no need of this configuration setting as sping6 will automatically set user details, service and password encoded objects to auntication.
     }
 
-    /**
-     * Configures the AuthenticationProvider.
-     *
-     * @return the configured AuthenticationProvider
-     */
-    @Bean
-    public AuthenticationProvider authenticationProvider()
-    {   DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(myUserDetailService);
-        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
-        return daoAuthenticationProvider;
-    }
 
-    /**
-     * Configures the password encoder.
-     *
-     * @return the configured BCryptPasswordEncoder
-     */
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder()
-    {   return new BCryptPasswordEncoder();
-    }
 }

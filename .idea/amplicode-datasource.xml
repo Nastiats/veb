@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AmplicodeJpaDataSourceConfig">
+    <data-sources>
+      <data-source id="e49b11dd-931a-4308-a54f-878a923df950" name="poezd" url="jdbc:postgresql://localhost:5432/poezd" driverClass="org.postgresql.Driver" />
+    </data-sources>
+    <option name="preferredDataSourceId" value="e49b11dd-931a-4308-a54f-878a923df950" />
+  </component>
+</project>

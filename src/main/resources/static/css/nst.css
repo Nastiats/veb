@@ -1,0 +1,110 @@
+body
+{ font-family: Arial, sans-serif;
+  background-color: #c0c0c0;
+  margin: 0;
+  padding: 0;
+}
+
+.container
+{ width: 50%;
+  margin: auto;
+  overflow: hidden;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+}
+
+h1
+{ font-size: 36px; /* Размер шрифта */
+  margin: 0; /* Убираем отступы */
+  color: #333; /* Цвет текста */
+}
+
+h2
+{ margin-top: 0; /* Убираем отступ сверху */
+  color: #333; /* Цвет текста */
+}
+
+form
+{ display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label
+{ display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"], input[type="password"], input[type="email"]
+{ width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+button
+{ display: block;
+  width: 100%;
+  padding: 10px;
+  background: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover
+{ background: #555;
+}
+
+.btn
+{ display: block;
+  width: 90%;
+  margin: 20px auto;
+  padding: 10px;
+  text-align: center;
+  background: #ccc;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover
+{ background: #555;
+}
+
+
+#header
+{ /* Верхний блок */
+    background: #c0c0c0; /* Цвет фона */
+    padding: 10px; /* Поля вокруг текста */
+    text-align: center; /* Выравнивание по середине */
+}
+
+ #sidebar
+ { /* Левая колонка */
+    float: left; /* Обтекание справа */
+ /*   border: 1px solid #333; /* Параметры рамки вокруг */
+    width: 180px; /* Ширина колонки */
+    padding: 5px; /* Поля вокруг текста */
+    margin: 10px 10px 20px 5px; /* Значения отступов */
+ }
+
+ #content
+ { /* Правая колонка */
+    margin: 10px 5px 20px 25%; /* Значения отступов */
+    padding: 5px; /* Поля вокруг текста */
+ /*   border: 1px solid #333; /* Параметры рамки */
+ }
+
+ #footer
+ { /* Нижний блок */
+    background: #c0c0c0; /* Цвет фона */
+    padding: 5px; /* Поля вокруг текста */
+    color: #fff; /* Цвет текста */
+    clear: left; /* Отменяем действие float */
+    font-size: xx-small;
+ }

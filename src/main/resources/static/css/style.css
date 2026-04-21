@@ -9,6 +9,11 @@ body {
     width: 50%;
     margin: auto;
     overflow: hidden;
+                padding: 20px;
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-top: 50px;
 }
 
 h1, h2 {
@@ -17,10 +22,9 @@ h1, h2 {
 }
 
 form {
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 }
 
 label {
@@ -42,6 +46,7 @@ button {
     color: #fff;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 button:hover {
