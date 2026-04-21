@@ -1,0 +1,22 @@
+<div th:fragment="body">
+
+<div class="containeer">
+    <div class="row col-md-10">
+        <h2>Список пользователей</h2>
+    </div>
+    <table >
+        <thread>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thread>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
