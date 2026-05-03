@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="ru">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Продажа билетов</title>
+    <link rel="stylesheet" th:href="@{/css/nst.css}" />
+</head><body>
+
+<div class="container">
+    <div >
+        <div >
+            <div >
+                <h2>Восстановление пароля</h2>
+            </div>
+            <div th:if="${param.success}">
+                <div>
+                   Успешное изменения пароля!
+                </div>
+            </div>
+            <div th:if="${param.error}">
+                <div >
+                    Ошибка смены пароля!
+                </div>
+            </div>
+            <div th:unless="${param.email}" >
+                <form
+                        method="post"
+                        role="form"
+                        th:action="@{/restore/email}"
+                        th:object="${user}"
+                >
+                    <div >
+                        <label>Email</label>
+                        <input
+                                id="email"
+                                name="email"
+                                placeholder="E-mail:"
+                                th:field="*{email}"
+                                type="email"
+                        />
+                    </div>
+                    <div >
+                        <button type="submit">Далее...</button>
+                    </div>
+                </form>
+            </div>
+            <div th:if="${param.email}" >
+                <form
+                        method="post"
+                        role="form"
+                        th:action="@{/restore/save}"
+                        th:object="${user}"
+                >
+                    <input type="hidden" name="email" th:value="${user.email}" />
+                    <div >
+                        <label class="form-label"><span th:text="|${user.email}|"></span></label>
+                    </div>
+                    <div >
+                        <label class="form-label">Новый пароль:</label>
+                        <input
+                                id="password"
+                                name="password"
+                                placeholder="Введите пароль"
+                                th:field="*{password}"
+                                type="password"
+                        />
+                    </div>
+                    <div >
+                        <label class="form-label"><span th:text="|${user.usquery}|"></span></label>
+                        <input
+                                id="usanswer"
+                                name="usanswer"
+                                placeholder="Введите ответ:"
+                                th:field="*{usanswer}"
+                                type="text"
+                        />
+                    </div>
+                    <div >
+                        <button type="submit">Сохранить</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
