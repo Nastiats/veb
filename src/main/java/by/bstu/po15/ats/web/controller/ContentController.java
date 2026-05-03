@@ -3,6 +3,7 @@ package by.bstu.po15.ats.web.controller;
 
 import by.bstu.po15.ats.web.dto.UserDto;
 import by.bstu.po15.ats.web.entity.User;
+import by.bstu.po15.ats.web.entity.newPassData;
 import by.bstu.po15.ats.web.repository.UserRepository;
 import by.bstu.po15.ats.web.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -102,6 +104,7 @@ public class ContentController
     public String RegisterUser(HttpServletRequest request, Model model)
     {   model.addAttribute("currentUri", request.getRequestURI());
         UserDto userDto = new UserDto();
+        userDto.setUsquery("Отчество вашей мамы?");
         model.addAttribute("user",userDto); //model object is used to store data that is entered from form.
 
         return "register";
@@ -139,19 +142,20 @@ public class ContentController
     }
 
     @PostMapping("/restore/email")
-    public String restorePostMail(HttpServletRequest request, @Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model)
-    {   model.addAttribute("currentUri", request.getRequestURI());
+    public String restorePostMail(HttpServletRequest request, @Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model) {
+        model.addAttribute("currentUri", request.getRequestURI());
 
         User existingUser = userService.findByEmail(userDto.getEmail()); //  Проверим, существует ли такой email
 
-        if(existingUser!=null && existingUser.getEmail()!=null && !existingUser.getEmail().isEmpty()) // проверяем, что такой email зарегистрирован !
-        {   model.addAttribute("email", userDto.getEmail() );
+        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) // проверяем, что такой email зарегистрирован !
+        {   model.addAttribute("email", userDto.getEmail());
             UserDto user2Dto = new UserDto();
             user2Dto.setEmail(existingUser.getEmail());
             user2Dto.setUsquery(existingUser.getUsquery());
-            model.addAttribute("user",user2Dto); // userDto - используется для обмена данными с формой
+            model.addAttribute("user", user2Dto); // userDto - используется для обмена данными с формой
+            return "restore";
         }
-        return "restore";
+        return "redirect:/restore";
     }
 
     @PostMapping("/restore/save")
@@ -170,11 +174,9 @@ public class ContentController
         return "redirect:/main";
     }
 
-
-
-    //handler methods for getting list of users.
     @GetMapping("/admin/auth")
-    public String users(HttpServletRequest request, Model model){
+    public String users(HttpServletRequest request, Model model)
+    {
         model.addAttribute("currentUri", request.getRequestURI());
 
         List<UserDto> users = userService.findAllUsers();
@@ -182,5 +184,72 @@ public class ContentController
 
         return "main";
     }
+
+    @GetMapping("/admin/auth/setpass")
+    public String getUserPass(HttpServletRequest request, Model model)
+    {
+        model.addAttribute("currentUri", request.getRequestURI());
+
+        String email = request.getParameter("uid");
+        newPassData npd = new newPassData(email);
+        model.addAttribute("npd", npd);
+
+        return "main";
+    }
+
+    @PostMapping("/admin/auth/setpass")
+    public String postUserPass(HttpServletRequest request, newPassData npd, BindingResult result, Model model)
+    {   model.addAttribute("currentUri", request.getRequestURI());
+
+        User existingUser = userService.findByEmail(npd.getEmail()); //  Проверим, существует ли такой email
+        if(existingUser!=null && existingUser.getEmail()!=null && !existingUser.getEmail().isEmpty()) // проверяем, что такой email зарегистрирован !
+        {   if(( npd.getNewpass1().equals(npd.getNewpass2()))&& !npd.getNewpass1().isEmpty() )
+            {   // Пароли совпадают
+                existingUser.setPassword(passEncode(npd.getNewpass1())); // Изменяем пароль пользователя
+                userRepository.save(existingUser);
+                model.addAttribute("message", "Успешная смена пароля " + npd.getEmail());
+                return "redirect:/admin/auth";
+            }
+        }
+        model.addAttribute("npd", npd);
+        model.addAttribute("error", "Ошибка изменения пароля " + npd.getEmail());
+        return "main";
+    }
+
+    @GetMapping("/user/setpass")
+    public String getMyPass(HttpServletRequest request, Model model, Principal pus)
+    {
+        model.addAttribute("currentUri", request.getRequestURI());
+
+        String email = pus.getName();
+
+        newPassData npd = new newPassData(email);
+        model.addAttribute("npd", npd);
+
+        return "main";
+    }
+
+    @PostMapping("/user/setpass")
+    public String postMyPass(HttpServletRequest request, newPassData npd, BindingResult result, Model model)
+    {   model.addAttribute("currentUri", request.getRequestURI());
+
+        User existingUser = userService.findByEmail(npd.getEmail()); //  Проверим, существует ли такой email
+        if(existingUser!=null && existingUser.getEmail()!=null && !existingUser.getEmail().isEmpty()) // проверяем, что такой email зарегистрирован !
+        {   if(( npd.getNewpass1().equals(npd.getNewpass2()))&& !npd.getNewpass1().isEmpty() )
+            {   // Пароли совпадают
+                if( isPassMatch( npd.getOldpass(), existingUser.getPassword() ) )
+                { // Старый пароль соответствует текущему
+                    existingUser.setPassword(passEncode(npd.getNewpass1())); // Изменяем пароль пользователя
+                    userRepository.save(existingUser);
+                    model.addAttribute("message", "Успешная смена пароля " + npd.getEmail());
+                    return "redirect:/user/home";
+                }
+            }
+        }
+        model.addAttribute("npd", npd);
+        model.addAttribute("error", "Ошибка изменения пароля " + npd.getEmail());
+        return "main";
+    }
+
 }
 

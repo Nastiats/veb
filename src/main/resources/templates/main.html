@@ -27,13 +27,26 @@
 </div>
 <div id="content">
     <div th:unless="${#authorization.expression('isAuthenticated()')}">
-        <!-- Вход не  выполнен -->
+        <!-- Вход не выполнен -->
         <div th:insert="~{nologin :: body}"></div>
     </div>
     <div th:if="${#authorization.expression('isAuthenticated()')}">
         <!-- Вход выполнен -->
+        <div style="display: flex; justify-content: space-between;">
+            <div th:unless="${#strings.isEmpty(error)}">
+                <div id="error">
+                    <span th:text="|${error}|"></span>
+                </div>
+            </div>
+            <div th:unless="${#strings.isEmpty(message)}">
+                <div id="message">
+                    <span th:text="|${message}|"></span>
+                </div>
+            </div>
+        </div>
+
         <!-- Получаем URI запроса -->
-   <div th:insert="~{${currentUri} :: body}"></div>
+        <div th:insert="~{${currentUri} :: body}"></div>
     </div>
 
 </div>

@@ -9,12 +9,18 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Действия</th>
             </tr>
         </thread>
         <tbody>
         <tr th:each="user : ${users}">
             <td th:text="${user.name}"></td>
             <td th:text="${user.email}"></td>
+            <td>
+                <div style="display: flex; justify-content: space-between;">
+                    <div><a th:href="@{/admin/auth/setpass(uid=${user.email})}">[Пароль]</a></div>
+                </div>
+            </td>
         </tr>
         </tbody>
     </table>
