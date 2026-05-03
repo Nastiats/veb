@@ -1,0 +1,37 @@
+<div th:fragment="body" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="containeer">
+        <h2>Смена пароля для пользователя <span th:text="|${npd.email}|"></span></h2>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/auth/setpass}"
+                th:object="${npd}"
+        >
+            <input type="hidden" name="email" th:value="${npd.email}" />
+            <div >
+                <label class="form-label">Новый пароль:</label>
+                <input
+                        id="newpass1"
+                        name="newpass1"
+                        placeholder="Введите пароль"
+                        th:field="*{newpass1}"
+                        type="password"
+                />
+            </div>
+            <div >
+                <label class="form-label">Повторите пароль:</label>
+                <input
+                        id="newpass2"
+                        name="newpass2"
+                        placeholder="Повторите пароль"
+                        th:field="*{newpass2}"
+                        type="password"
+                />
+            </div>
+            <div >
+                <button type="submit">Установить пароль</button>
+            </div>
+        </form>
+
+    </div>
+</div>
