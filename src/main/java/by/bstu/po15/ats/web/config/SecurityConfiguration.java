@@ -37,10 +37,11 @@ public class SecurityConfiguration
                         authorize ->
                         {   // Permit access to static resources and login, home, and error pages
                             authorize.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
-                            authorize.requestMatchers("/login", "/error/**", "/logout", "/", "/register/**").permitAll();
+                            authorize.requestMatchers("/login", "/error/**", "/logout", "/", "/new/**", "/restore/**").permitAll();
                             // Restrict access to admin and user pages based on roles
                             authorize.requestMatchers("/admin/**").hasRole("ADMIN");
-                            authorize.requestMatchers("/user/**").hasRole("USER");
+                            authorize.requestMatchers("/user/**").hasAnyRole("USER", "ADMIN");
+                            //        .hasRole("USER");
                             // All other requests require authentication
                             authorize.anyRequest().authenticated();
                         }

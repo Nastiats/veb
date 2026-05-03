@@ -11,15 +11,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserDto {
+public class UserDto
+{   private Long id;    // Идентификатор пользователя
 
-    private Long id;
     @NotEmpty
-    private String name;
-    @NotEmpty(message = "Email should not be empty")
+    private String name; // Логин пользователя
+
+    @NotEmpty(message = "Email не может быть пустым")
     @Email
-    private String email;                               // As form data is stored in dto objects , therefore dto object fields should be validated.
-    @NotEmpty(message = "password should not be empty")
-    private String password;
+    private String email; // email пользователя (Он не может быть пустым)
+
+    @NotEmpty(message = "Пароль не может быть пустым")
+    private String password; // пароль пользователя (Он не может быть пустым)
+
+    @NotEmpty(message = "Вопрос  для восстановления не может быть пустым")
+    private String usquery; // Вопрос для восстановления пароля
+
+    @NotEmpty(message = "Ответ для восстановления пароля не может быть пустым")
+    private String usanswer; // Ответ для восстановления паррля
 
 }

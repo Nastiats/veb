@@ -22,7 +22,7 @@
                 <form
                         method="post"
                         role="form"
-                        th:action="@{/register/save}"
+                        th:action="@{/new/save}"
                         th:object="${user}"
                 >
                     <div >
@@ -62,10 +62,33 @@
                            th:if="${#fields.hasErrors('password')}"></p>
                     </div>
                     <div >
+                        <label>Вопрос для восстановления пароля:</label>
+                        <input
+                                id="usquery"
+                                name="usquery"
+                                placeholder="Отчество вашей мамы?"
+                                th:field="*{usquery}"
+                                type="text"
+                        />
+                        <p th:errors="*{usquery}"
+                           th:if="${#fields.hasErrors('usquery')}"></p>
+                    </div>
+                    <div >
+                        <label class="form-label">Текст ответа на вопрос:</label>
+                        <input
+                                id="usanswer"
+                                name="usanswer"
+                                placeholder=""
+                                th:field="*{usanswer}"
+                                type="text"
+                        />
+                        <p th:errors="*{usanswer}"
+                           th:if="${#fields.hasErrors('usanswer')}"></p>
+                    </div>
+                    <div >
                         <button type="submit">Зарегистрироваться</button>
                         &nbsp; <span>Уже зарегистрированы? Тогда <a th:href="@{/login}">входите!</a></span>
                     </div>
-
                 </form>
 
             </div>

@@ -15,12 +15,13 @@
     </div>
     <div th:unless="${#authorization.expression('isAuthenticated()')}">
         <a class="btn" th:href="@{/login}">Вход</a>
-        <a class="btn" th:href="@{/register}">Регистрация</a>
+        <a class="btn" th:href="@{/new}">Регистрация</a>
     </div>
     <div th:if="${#authorization.expression('hasRole(''USER'')')}">
         <a class="btn" th:href="@{/user/home}">Личный кабинет</a>
     </div>
     <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+        <a class="btn" th:href="@{/user/home}">Личный кабинет</a>
         <a class="btn" th:href="@{/admin/home}">Администрирование</a>
     </div>
 </div>

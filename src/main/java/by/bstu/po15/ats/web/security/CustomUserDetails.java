@@ -12,20 +12,26 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomUserDetails implements UserDetailsService {
+public class CustomUserDetails implements UserDetailsService
+{
     private UserRepository userRepository;
-    public CustomUserDetails(UserRepository userRepository){
-        this.userRepository=userRepository;
+    public CustomUserDetails(UserRepository userRepository)
+    {   this.userRepository=userRepository;
     }
 
-    @Override   // this function is uses spring loadUserByUsername method that retrieves object from db and returns into spring security provided user.
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if(user!=null){
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),user.getRoles().stream().map((role)->new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList()));
+    @Override   // Извлекает из базы объекты типа User и связывает их с аттрибутами безопасности
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
+    {   User user = userRepository.findByEmail(email);
+        if(user!=null)
+        {   return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),    //  email пользователя  - как поле логина
+                user.getPassword(), // pssword пользователя - как поле пароля
+                // строит список ролей доступа, связанных с пользователем
+                user.getRoles().stream().map((role)->new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList())
+            );
         }
-        else{
-            throw new UsernameNotFoundException("Неверный e-mail или пароль!");
+        else
+        {   throw new UsernameNotFoundException("Неверный e-mail или пароль!");
         }
     }
 }

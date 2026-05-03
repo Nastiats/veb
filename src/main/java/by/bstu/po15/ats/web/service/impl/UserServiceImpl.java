@@ -14,55 +14,63 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService
+{
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder){ //no need for one constructor to have @Autowired annotation.
-        this.userRepository=userRepository;
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder)
+    {   this.userRepository=userRepository;
         this.roleRepository=roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
     @Override
-    public void saveUser(UserDto userDto) {
+    public void saveUser(UserDto userDto)
+    {
         User user = new User();
         user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());  //conversion of form data to jpa entity, here mapper won't work as userDto don't have common attributes with User.
-        user.setPassword(passwordEncoder.encode(userDto.getPassword())); // before setting the password we are encrypting using Bcrypt by Spring security.
+        user.setEmail(userDto.getEmail());
+        user.setUsquery(userDto.getUsquery());
+        user.setUsanswer(userDto.getUsanswer());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        //userRepository.save(user);
-
+        // Получаемсписок ролей полььзователя
         Role role = roleRepository.findByName("ROLE_USER");
 
-        if(role==null){
-            role=checkRoleExists();
+        if(role == null)    // Если нет ни одной назначенной роли
+        {   role=defRoleList(); // Назначаем список ролей по умолчанию
         }
-        user.setRoles(Arrays.asList(role));   //As we have list of roles field in user checking any role in db exists or not if not creating by a private function and saving it in db
-        userRepository.save(user); // now saving user to db.
+        user.setRoles(Arrays.asList(role));
+
+        userRepository.save(user); // Сохраняем объект в базу данных
 
     }
 
     @Override
-    public User findByEmail(String email) {
+    public User findByEmail(String email)   // Находит и загружает из базы объет с заданным email
+    {
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public List<UserDto> findAllUsers() {
+    public List<UserDto> findAllUsers() // Загружает объекты из базы
+    {
         List<User> users = userRepository.findAll();
         List<UserDto> user_dto = new ArrayList<>();
-        for(User user:users){
-            UserDto userDto = new UserDto();
+        for(User user:users)
+        {   UserDto userDto = new UserDto();
             userDto.setId(user.getId());
             userDto.setName(user.getName());
             userDto.setEmail(user.getEmail());
+            userDto.setUsquery(user.getUsquery());
+            userDto.setUsanswer(user.getUsanswer());
             user_dto.add(userDto);
         }
         return user_dto;
     }
 
-    private Role checkRoleExists(){
+    private Role defRoleList(){
         Role role = new Role();
         role.setName("ROLE_USER");
         return roleRepository.save(role);

@@ -15,21 +15,33 @@ import java.util.List;
 public class User
 {   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
-    private String name;
-    @Column(nullable = false, unique = true)
-    private String email;
-    @Column(nullable = false)
-    private String password;
+    private Long id;            // Идентификатор пользователя
 
-    @ManyToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL) //This FetchType.Eager is to ensure that hibernate loads All the jpa entities associates with main jpa entitiy while initiating them.
+    @Column(nullable = false)
+    private String name;        // Логин пользователя
+
+    @Column(nullable = false, unique = true)
+    private String email;       // email пользователя
+
+    @Column(nullable = false)
+    private String password;    //  Пароль пользователя
+
+    @Column(nullable = false)
+    private String usquery;     // Вопрос для восстановления паррля
+
+    @Column(nullable = false)
+    private String usanswer;    // Ответ для пожтверждения подлинности
+
+    // Список всех  ролей пользователя находится в таблице roles
+    // Таблица user_roles содержит ссылки назначенных пользователею ролей
+
+    //  JPA будет загружать весь список пользовательских ролей в список roles
+    @ManyToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name="user_roles",
             joinColumns = {@JoinColumn(name="user_id",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name="role_id",referencedColumnName = "id")} //For 3rd table to have 2 tables primary keys.
     )
-    private List<Role> roles = new ArrayList<>();   //Cascading is the option whenver we are changing any record of user, then respective record for role
+    private List<Role> roles = new ArrayList<>();   // Список ролей пользователя
 
-    // Default constructor is needed for JPA
 }
