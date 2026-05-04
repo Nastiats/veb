@@ -1,0 +1,33 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Типы вагонов</h2>
+        </div>
+        <table >
+            <thread>
+                <tr>
+                    <th>Название</th>
+                    <th>Обозначение</th>
+                    <th>Мест</th>
+                    <th>Цена места</th>
+                    <th>Операции</th>
+                </tr>
+            </thread>
+            <tbody>
+            <tr th:each="vgt : ${vgtypes}">
+                <td th:text="${vgt.name}"></td>
+                <td th:text="${vgt.Short}"></td>
+                <td th:text="${vgt.places}"></td>
+                <td th:text="${vgt.cost}"></td>
+                <td>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div><a th:href="@{/admin/vgtypes/edit(uid=${vgt.id})}">[Правка]</a>&nbsp;</div>
+                        <div><a th:href="@{/admin/vgtypes/delete(uid=${vgt.id})}">[Удалить]</a>&nbsp;</div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

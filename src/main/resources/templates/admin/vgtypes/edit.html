@@ -1,0 +1,61 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Редактирование типа <span th:text="|${vgtypes.name}|"></span></h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/vgtypes/edit}"
+                th:object="${vgtypes}"
+        >
+            <input type="hidden" name="id" th:value="${vgtypes.id}" />
+            <div >
+                <label class="form-label">Название:</label>
+                <input
+                        id="name"
+                        name="name"
+                        placeholder="Название типа"
+                        th:field="*{name}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Обозначение:</label>
+                <input
+                        id="Short"
+                        name="Short"
+                        placeholder="Обозначение"
+                        th:field="*{Short}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Количество мест:</label>
+                <input
+                        id="places"
+                        name="places"
+                        placeholder="Количество мест"
+                        th:field="*{places}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Цена одного места:</label>
+                <input
+                        id="cost"
+                        name="cost"
+                        placeholder="Цена одного места"
+                        th:field="*{cost}"
+                        type="text"
+                />
+            </div>
+
+            <div >
+                <button type="submit">Сохранить изменения</button>
+            </div>
+        </form>
+
+    </div>
+</div>

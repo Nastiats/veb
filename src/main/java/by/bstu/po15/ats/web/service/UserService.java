@@ -5,7 +5,8 @@ import by.bstu.po15.ats.web.entity.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService
+{
     void saveUser(UserDto userDto);
 
     User findByEmail(String email);
