@@ -1,0 +1,35 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Удаление типа <span th:text="|${vgtypes.name}|"></span></h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/vgtypes/delete}"
+                th:object="${vgtypes}"
+        >
+            <input type="hidden" name="id" th:value="${vgtypes.id}" />
+            <div >
+                <label class="form-label">Название: <span th:text="|${vgtypes.name}|"></span></label>
+            </div>
+            <div >
+                <label class="form-label">Обозначение: <span th:text="|${vgtypes.Short}|"></span></label>
+            </div>
+            <div >
+                <label class="form-label">Количество мест: <span th:text="|${vgtypes.places}|"></span></label>
+            </div>
+            <div >
+                <label class="form-label">Цена одного места: <span th:text="|${vgtypes.cost}|"></span></label>
+            </div>
+
+            <div >
+                <button type="submit">Удалить этот тип</button>&nbsp;
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/admin/vgtypes/index}">[Отмена]</a>
+        </div>
+    </div>
+</div>

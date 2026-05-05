@@ -1,0 +1,52 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Создание нового маршрута</h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/marshrut/new}"
+                th:object="${mar}"
+        >
+            <div >
+                <label class="form-label">Номер маршрута:</label>
+                <input
+                        id="numer"
+                        name="numer"
+                        placeholder="Номер маршрута"
+                        th:field="*{numer}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Станция отправления:</label>
+                <input
+                        id="frm"
+                        name="frm"
+                        placeholder="Станция отправления"
+                        th:field="*{frm}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Станция назначения:</label>
+                <input
+                        id="toto"
+                        name="toto"
+                        placeholder="Станция назначения"
+                        th:field="*{toto}"
+                        type="text"
+                />
+            </div>
+
+            <div >
+                <button type="submit">Создать</button>
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/admin/marshrut/index}">[Отмена]</a>
+        </div>
+    </div>
+</div>

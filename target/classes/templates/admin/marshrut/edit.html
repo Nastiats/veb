@@ -1,0 +1,52 @@
+<div th:fragment="body" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Редактирование маршрута <span th:text="|${mar.numer}|"></span></h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/marshrut/edit}"
+                th:object="${mar}"
+        >
+            <input type="hidden" name="id" th:value="${mar.id}" />
+            <div >
+                <label class="form-label">Номер маршрута:</label>
+                <input
+                        id="numer"
+                        name="numer"
+                        placeholder="Номер маршрута"
+                        th:field="*{numer}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Станция отправления:</label>
+                <input
+                        id="frm"
+                        name="frm"
+                        placeholder="Станция отправления"
+                        th:field="*{frm}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Станция назначения:</label>
+                <input
+                        id="toto"
+                        name="toto"
+                        placeholder="Станция назначения"
+                        th:field="*{toto}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <button type="submit">Сохранить изменения</button>&nbsp;
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/admin/marshrut/index}">[Отмена]</a>
+        </div>
+    </div>
+</div>

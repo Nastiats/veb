@@ -42,7 +42,7 @@ public class VgTypesController
         Long id = Long.parseLong(request.getParameter("uid"));
 
         VgTypes vgt = vgTypesRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Невенрый код типа вагона:" + id));
+                .orElseThrow(() -> new IllegalArgumentException("Неверный код типа вагона:" + id));
 
         model.addAttribute("vgtypes", vgt);
         return "main";
@@ -67,5 +67,60 @@ public class VgTypesController
         return "main";
     }
 
+    @GetMapping("/admin/vgtypes/new")
+    public String showNewForm(HttpServletRequest request, Model model)
+    {   model.addAttribute("currentUri", request.getRequestURI());
 
+       VgTypes vgt = new VgTypes();
+
+        model.addAttribute("vgtypes", vgt);
+        return "main";
+    }
+    @PostMapping("/admin/vgtypes/new")
+    public String saveNewForm(HttpServletRequest request, VgTypes vgt, BindingResult result, Model model)
+    {   model.addAttribute("currentUri", request.getRequestURI());
+        if(vgt != null)
+        {   VgTypes bdvgt = new VgTypes();
+            if (bdvgt != null) {
+                bdvgt.setName(vgt.getName());
+                bdvgt.setShort(vgt.getShort());
+                bdvgt.setPlaces(vgt.getPlaces());
+                bdvgt.setCost(vgt.getCost());
+                vgTypesRepository.save(bdvgt);
+                model.addAttribute("message", "Успешное создание " + vgt.getName());
+                return "redirect:/admin/vgtypes/index";
+            }
+        }
+        model.addAttribute("vgtypes", vgt);
+        model.addAttribute("error", "Ошибка сохранения " + vgt.getName());
+        return "main";
+    }
+
+    @GetMapping("/admin/vgtypes/delete")
+    public String showDeleteForm(HttpServletRequest request, Model model)
+    {   model.addAttribute("currentUri", request.getRequestURI());
+
+        Long id = Long.parseLong(request.getParameter("uid"));
+
+        VgTypes vgt = vgTypesRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Неверный код типа вагона:" + id));
+
+        model.addAttribute("vgtypes", vgt);
+        return "main";
+    }
+    @PostMapping("/admin/vgtypes/delete")
+    public String saveDeleteForm(HttpServletRequest request, VgTypes vgt, BindingResult result, Model model)
+    {   model.addAttribute("currentUri", request.getRequestURI());
+        if(vgt != null && vgt.getId()!=null)
+        {   VgTypes bdvgt = vgTypesService.findById(vgt.getId());
+            if (bdvgt != null) {
+                vgTypesRepository.delete(bdvgt);
+                model.addAttribute("message", "Успешное удаление " + vgt.getName());
+                return "redirect:/admin/vgtypes/index";
+            }
+        }
+        model.addAttribute("vgtypes", vgt);
+        model.addAttribute("error", "Ошибка удаления " + vgt.getName());
+        return "main";
+    }
 }

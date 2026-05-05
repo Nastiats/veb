@@ -1,0 +1,38 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Маршруты</h2>
+        </div>
+        <div>
+            <a th:href="@{/admin/marshrut/new}">[Новый]</a>
+        </div>
+        <table >
+            <thread>
+                <tr>
+                    <th>Номер</th>
+                    <th>Станция отправления</th>
+                    <th>Станция назначения</th>
+                    <th>Операции</th>
+                </tr>
+            </thread>
+            <tbody>
+            <tr th:each="tbl : ${mar}">
+                <td th:text="${tbl.numer}"></td>
+                <td th:text="${tbl.frm}"></td>
+                <td th:text="${tbl.toto}"></td>
+
+                <td>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div><a th:href="@{/admin/marshrut/edit(uid=${tbl.id})}">[Правка]</a>&nbsp;</div>
+                        <div><a th:href="@{/admin/marshrut/delete(uid=${tbl.id})}">[Удалить]</a>&nbsp;</div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <a th:href="@{/admin/marshrut/new}">[Новый]</a>
+        </div>
+    </div>
+</div>

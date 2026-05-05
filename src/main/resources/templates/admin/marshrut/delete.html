@@ -1,0 +1,32 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Удаление маршрута <span th:text="|${mar.numer}|"></span></h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/marshrut/delete}"
+                th:object="${mar}"
+        >
+            <input type="hidden" name="id" th:value="${mar.id}" />
+            <div >
+                <label class="form-label">Номер маршрута: <span th:text="|${mar.numer}|"></span></label>
+            </div>
+            <div >
+                <label class="form-label">Станция отправления: <span th:text="|${mar.frm}|"></span></label>
+            </div>
+            <div >
+                <label class="form-label">Станция назначения: <span th:text="|${mar.toto}|"></span></label>
+            </div>
+
+            <div >
+                <button type="submit">Удалить этот тип</button>&nbsp;
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/admin/marshrut/index}">[Отмена]</a>
+        </div>
+    </div>
+</div>

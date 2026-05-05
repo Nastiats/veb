@@ -2,15 +2,14 @@
 
     <div class="containeer">
         <div class="row col-md-10">
-            <h2>Редактирование типа <span th:text="|${vgtypes.name}|"></span></h2>
+            <h2>Создание нового типа</h2>
         </div>
         <form
                 method="post"
                 role="form"
-                th:action="@{/admin/vgtypes/edit}"
+                th:action="@{/admin/vgtypes/new}"
                 th:object="${vgtypes}"
         >
-            <input type="hidden" name="id" th:value="${vgtypes.id}" />
             <div >
                 <label class="form-label">Название:</label>
                 <input
@@ -53,7 +52,7 @@
             </div>
 
             <div >
-                <button type="submit">Сохранить изменения</button>&nbsp;
+                <button type="submit">Создать</button>
             </div>
         </form>
         <div>
