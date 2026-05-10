@@ -1,0 +1,46 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Изменение поезда</h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/poezd/edit}"
+                th:object="${pzd}"
+        >
+            <input type="hidden" name="uid" th:value="${pzd.id}" />
+            <input type="hidden" name="marshrut_id" th:value="${pzd.marshrut_id}" />
+            <div >
+                <label class="form-label">Номер поезда:</label>
+                <input
+                        id="nomer"
+                        name="nomer"
+                        placeholder="Номер поезда"
+                        th:field="*{nomer}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Дата и время отправления:</label>
+                <input
+                        type="datetime-local"
+                        id="datetime"
+                        name="datetime"
+                        th:field="*{edit_datetime}"
+
+                />
+            </div>
+            <div >
+                <label class="form-label">Маршрут: <span th:text="|${pzd.marshrut_name}|"></span></label>
+            </div>
+            <div >
+                <button type="submit">Сохранить изменения</button>&nbsp;
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/admin/poezd/index}">[Отмена]</a>
+        </div>
+    </div>
+</div>

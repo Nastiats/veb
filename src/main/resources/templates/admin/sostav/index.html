@@ -3,13 +3,13 @@
         <div class="row col-md-10">
             <h2>Формирование составов</h2>
             <form   id="frmSel"
-                    method="post"
+                    method="get"
                     role="form"
                     th:action="@{/admin/sostav/index}"
                     th:object="${mar}"
             >
-                <label for="Marselection">Выберите маршрут: </label>
-                <select  id="Marselection" name="Marselection"
+                <label for="mrs">Выберите маршрут: </label>
+                <select  id="mrs" name="mrs"
                     onchange="document.getElementById('frmSel').submit();"
                 >
                     <option th:each="mrt : ${mar}"
@@ -21,8 +21,8 @@
                 </select>
             </form>
             <div>
-                <div th:if="${mMarselectionar != null }">
-                    <a th:href="@{/admin/sostav/new(mrs=${mMarselectionar})}">[Новый]</a>
+                <div th:if="${mrs != 0 }">
+                    <a th:href="@{/admin/sostav/new(mrs=${mrs})}">[Новый]</a>
                 </div>
                 <div th:if="${sost != null and sost.size() > 0}">
                 <table >
@@ -37,23 +37,23 @@
                     <tbody>
                     <tr th:each="tbl : ${sost}" th:if="${sost != null and sost.size() > 0}">
                         <td th:text="${tbl.numer}"></td>
-                        <td th:text="${tbl.vgid}"></td>
+                        <td th:text="${tbl.vtype}"></td>
                         <td th:text="${tbl.cost}"></td>
                         <td>
                             <div style="display: flex; justify-content: space-between;">
-                                <div><a th:href="@{/admin/sostav/edit(uid=${tbl.id},mrs=${mMarselectionar})}">[Правка]</a>&nbsp;</div>
-                                <div><a th:href="@{/admin/sostav/delete(uid=${tbl.id},mrs=${mMarselectionar})}">[Удалить]</a>&nbsp;</div>
+                                <div><a th:href="@{/admin/sostav/edit(uid=${tbl.id},mrs=${mrs})}">[Правка]</a>&nbsp;</div>
+                                <div><a th:href="@{/admin/sostav/delete(uid=${tbl.id},mrs=${mrs})}">[Удалить]</a>&nbsp;</div>
                             </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 </div>
-                <div th:if="${mMarselectionar != null }">
-                    <a th:href="@{/admin/sostav/new(mrs=${mMarselectionar})}">[Новый]</a>
+                <div th:if="${mrs != 0 }">
+                    <a th:href="@{/admin/sostav/new(mrs=${mrs})}">[Новый]</a>
                 </div>
             </div>
-            <div th:unless="${mMarselectionar != null }">
+            <div th:unless="${mrs != 0 }">
                 <h2>Сначала нужно выбрать маршрут</h2>
             </div>
         </div>

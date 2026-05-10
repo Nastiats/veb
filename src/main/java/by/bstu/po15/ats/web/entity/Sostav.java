@@ -29,4 +29,6 @@ public class Sostav
 
     @Column(nullable = false,precision = 19, scale = 2)
     private BigDecimal cost;        //  Стоимость места в вагоне
+
+    private String vtype;   // Название типа вагона
 }

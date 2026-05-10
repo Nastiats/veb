@@ -1,0 +1,32 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Удаление поезда</h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/poezd/delete}"
+                th:object="${pzd}"
+        >
+            <input type="hidden" name="uid" th:value="${pzd.id}" />
+            <input type="hidden" name="uid" th:value="${pzd.marshrut_id}" />
+            <div >
+                <label class="form-label">Номер поезда: <span th:text="|${pzd.nomer}|"></span></label>
+            </div>
+            <div >
+                <label class="form-label">Дата и время отправления: <span th:text="|${pzd.edit_datetime}|"></span></label>
+            </div>
+            <div >
+                <label class="form-label">Маршрут: <span th:text="|${pzd.marshrut_name}|"></span></label>
+            </div>
+            <div >
+                <button type="submit">Удалить поезд</button>&nbsp;
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/admin/poezd/index}">[Отмена]</a>
+        </div>
+    </div>
+</div>

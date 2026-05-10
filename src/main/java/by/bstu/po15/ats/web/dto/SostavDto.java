@@ -18,7 +18,7 @@ public class SostavDto
     private Long id;    // Идентификатор описания типа вагона в составе
 
     @NotEmpty(message = "Маршрут не может быть пустым")
-   Long marshrut_id; // Ссылка на родительскую таблицу marshrut
+    Long marshrut_id; // Ссылка на родительскую таблицу marshrut
 
     @NotEmpty(message = "Тип вагона не может быть пустым")
     private Long vgid; // Сссылка на список типов вагона

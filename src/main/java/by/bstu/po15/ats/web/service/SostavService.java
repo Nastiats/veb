@@ -12,7 +12,7 @@ public interface SostavService
 
     Sostav findById(Long id);
 
-    List<Sostav> findByMarshrut(Long marshrut_id);
+    public List<Sostav> findByMarshrut(Long marshrut_id);
 
     public List<SostavDto> findAll(); // Загружает объекты из базы
 }

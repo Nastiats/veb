@@ -1,0 +1,52 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Создание нового поезда</h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/poezd/new}"
+                th:object="${pzd}"
+        >
+
+            <div >
+                <label class="form-label">Номер поезда:</label>
+                <input
+                        id="nomer"
+                        name="nomer"
+                        placeholder="Номер поезда"
+                        th:field="*{nomer}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Дата и время отправления:</label>
+                <input
+                        type="datetime-local"
+                        id="datetime"
+                        name="datetime"
+                        th:field="*{edit_datetime}"
+                />
+            </div>
+            <div >
+                <label class="form-label">Маршрут:</label>
+                <select  id="marshrut_id" name="marshrut_id" th:field="*{marshrut_id}">
+                    <option th:each="vvv : ${mar}"
+                            th:value="${vvv.id}"
+                            th:text="${vvv.value}"
+                            th:selected="${vvv.isSelected()}"
+                    >
+                    </option>
+                </select>
+            </div>
+           <div >
+                <button type="submit">Создать новый поезд</button>&nbsp;
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/admin/poezd/index}">[Отмена]</a>
+        </div>
+    </div>
+</div>

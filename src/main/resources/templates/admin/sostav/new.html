@@ -1,0 +1,58 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Маршрут <span th:text="|${mrs.numer}|"></span>:
+               <span th:text="|${mrs.frm}|"></span>&nbsp;-&nbsp;<span th:text="|${mrs.toto}|"></span><BR/>
+                Регистрация нового вагона
+            </h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/sostav/new}"
+                th:object="${sost}"
+        >
+            <input type="hidden" name="uid" th:value="${sost.id}" />
+            <input type="hidden" name="mrs" th:value="${mrs.id}" />
+            <div >
+                <label class="form-label">Номер вагона:</label>
+                <input
+                        id="numer"
+                        name="numer"
+                        placeholder="Номер вагона"
+                        th:field="*{numer}"
+                        type="text"
+                />
+            </div>
+            <div >
+                <label class="form-label">Тип вагона:</label>
+                <select  id="vgid" name="vgid" th:field="*{vgid}">
+                    <option th:each="vvv : ${vgs}"
+                            th:value="${vvv.id}"
+                            th:text="${vvv.value}"
+                            th:selected="${vvv.isSelected()}"
+                    >
+                    </option>
+                </select>
+            </div>
+            <div >
+                <label class="form-label">Цена одного места:</label>
+                <input
+                        id="cost"
+                        name="cost"
+                        placeholder="Цена одного места"
+                        th:field="*{cost}"
+                        type="text"
+                />
+            </div>
+
+            <div >
+                <button type="submit">Сохранить изменения</button>&nbsp;
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/admin/sostav/index(mrs=${mrs.id})}">[Отмена]</a>
+        </div>
+    </div>
+</div>

@@ -1,13 +1,11 @@
 package by.bstu.po15.ats.web.service.impl;
 
-import by.bstu.po15.ats.web.dto.MarshrutDto;
 import by.bstu.po15.ats.web.dto.SostavDto;
-import by.bstu.po15.ats.web.entity.Marshrut;
 import by.bstu.po15.ats.web.entity.Sostav;
-import by.bstu.po15.ats.web.repository.MarshrutRepository;
 import by.bstu.po15.ats.web.repository.SostavRepository;
 import by.bstu.po15.ats.web.service.SostavService;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,13 +15,8 @@ import java.util.List;
 public class SostavServiceImpl implements SostavService
 {   private SostavRepository sostavRepository;
 
-    private final MarshrutRepository marshrutRepository;
-
-    SostavServiceImpl(SostavRepository sostavRepository,
-                      MarshrutRepository marshrutRepository)
-
+    SostavServiceImpl(SostavRepository sostavRepository)
     {   this.sostavRepository = sostavRepository;
-        this.marshrutRepository = marshrutRepository;
     }
 
     @Override
@@ -48,13 +41,12 @@ public class SostavServiceImpl implements SostavService
         probe.setMarshrut_id(marshrut_id);
 
         Example<Sostav> example = Example.of(probe);
-
-        return sostavRepository.findAll(example);
+        return sostavRepository.findAll(example, Sort.by("numer"));
     }
 
     public List<SostavDto> findAll() // Загружает объекты из базы
     {
-        List<Sostav> sostavList = sostavRepository.findAll();
+        List<Sostav> sostavList = sostavRepository.findAll(Sort.by("numer"));
         List<SostavDto> sts_dto = new ArrayList<>();
         for(Sostav sts:sostavList)
         {   SostavDto sostavDto = new SostavDto();

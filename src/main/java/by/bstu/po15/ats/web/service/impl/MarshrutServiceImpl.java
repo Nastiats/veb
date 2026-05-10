@@ -2,6 +2,7 @@ package by.bstu.po15.ats.web.service.impl;
 
 import by.bstu.po15.ats.web.dto.MarshrutDto;
 import by.bstu.po15.ats.web.entity.Marshrut;
+import by.bstu.po15.ats.web.entity.SelectList;
 import by.bstu.po15.ats.web.repository.MarshrutRepository;
 import by.bstu.po15.ats.web.service.MarshrutService;
 import org.springframework.stereotype.Service;
@@ -49,4 +50,8 @@ public class MarshrutServiceImpl implements MarshrutService
         return mar_dto;
     }
 
+    public String FindNameMarshrut(Long Id)
+    {   Marshrut mrt = marshrutRepository.getById(Id);
+        return mrt.getNumer() + ": " + mrt.getFrm() + " - " + mrt.getToto();
+    }
 }

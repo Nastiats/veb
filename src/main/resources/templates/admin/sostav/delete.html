@@ -1,0 +1,36 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Маршрут <span th:text="|${mrs.numer}|"></span>:
+                <span th:text="|${mrs.frm}|"></span>&nbsp;-&nbsp;<span th:text="|${mrs.toto}|"></span><BR/>
+                Удаление вагона: <span th:text="|${sost.numer}|"></span>
+            </h2>
+        </div>
+        <form
+                method="post"
+                role="form"
+                th:action="@{/admin/sostav/delete}"
+                th:object="${sost}"
+        >
+            <input type="hidden" name="uid" th:value="${sost.id}" />
+            <input type="hidden" name="mrs" th:value="${mrs.id}" />
+
+            <div >
+                <label class="form-label">Номер вагона: <span th:text="|${sost.numer}|"></span></label>
+            </div>
+            <div >
+                <label class="form-label">Тип вагона: <span th:text="|${sost.vtype}|"></span></label>
+              </div>
+            <div >
+                <label class="form-label">Цена одного места: <span th:text="|${sost.cost}|"></span></label>
+            </div>
+            <div >
+                <button type="submit">Удалить этот вагон из состава</button>&nbsp;
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/admin/sostav/index(mrs=${mrs.id})}">[Отмена]</a>
+        </div>
+    </div>
+</div>

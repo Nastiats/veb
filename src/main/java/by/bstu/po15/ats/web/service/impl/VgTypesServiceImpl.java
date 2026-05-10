@@ -1,14 +1,9 @@
 package by.bstu.po15.ats.web.service.impl;
 
-import by.bstu.po15.ats.web.dto.UserDto;
 import by.bstu.po15.ats.web.dto.VgTypesDto;
-import by.bstu.po15.ats.web.entity.User;
 import by.bstu.po15.ats.web.entity.VgTypes;
-import by.bstu.po15.ats.web.repository.RoleRepository;
-import by.bstu.po15.ats.web.repository.UserRepository;
 import by.bstu.po15.ats.web.repository.VgTypesRepository;
 import by.bstu.po15.ats.web.service.VgTypesService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,20 +13,8 @@ import java.util.List;
 public class VgTypesServiceImpl implements VgTypesService
 {   private VgTypesRepository vgTypesRepository;
 
-    private final UserRepository userRepository;
-
-    private final PasswordEncoder passwordEncoder;
-
-    private final RoleRepository roleRepository;
-
-    VgTypesServiceImpl(VgTypesRepository vgTypesRepository,
-                       UserRepository userRepository,
-                       PasswordEncoder passwordEncoder,
-                       RoleRepository roleRepository)
+    VgTypesServiceImpl(VgTypesRepository vgTypesRepository)
     {   this.vgTypesRepository=vgTypesRepository;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
     }
 
     @Override
