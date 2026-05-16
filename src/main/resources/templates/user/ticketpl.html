@@ -1,0 +1,40 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Покупка билета. Укажите еоличество билетов:</h2>
+            Поезд № <span th:text="${pzd.nomer}"></span>&nbsp;
+            <span th:text="${#temporals.format(pzd.datetime, 'dd.MM.yyyy HH:mm')}"></span></br>
+            <span th:text="${pzd.marshrut}"></span>
+            </br>
+            Вагон № <span th:text="${pls.vgnum}"></span>&nbsp;(<span th:text="${pls.vgname}"></span>)</BR>
+            Доступно мест: <span th:text="${pls.free_places}"></span> по цене: <span th:text="${pls.cost}"></span>
+            </BR>
+            <form
+                    method="post"
+                    role="form"
+                    th:action="@{/user/ticketpl}"
+
+            >
+                <input type="hidden" name="uid" th:value="${pzd.id}" />
+                <input type="hidden" name="pid" th:value="${pls.id}" />
+                <div >
+                    <label class="form-label">Количество билетов:</label>
+                    <input
+                            id="cnt"
+                            name="cnt"
+
+                            type="text"
+                    />
+                </div>
+                <div >
+                    <button type="submit">Купить</button>&nbsp;
+                </div>
+            </form>
+
+        </div>
+
+
+
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div th:fragment="body">
+    <div class="row col-md-10">
+        <h2>Мои билеты</h2>
+       <table>
+           <thread>
+                 <tr>
+                     <th>Дата отправления</th>
+                     <th>Номер поезда и направление</th>
+                     <th>Вагон</th>
+                     <th>Количество мест</th>
+                     <th>Цена места</th>
+                 </tr>
+           </thread>
+           <tbody>
+                <tr th:each="uu : ${ust}">
+                    <td th:text="${#temporals.format(uu.datetime, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td><span th:text="${uu.nomer}"></span>&nbsp;<span th:text="${uu.marshrut}"></span></td>
+                    <td><span th:text="${uu.vgnum}"></span>(<span th:text="${uu.vgname}"></span>)</td>
+                    <td th:text="${uu.count}"></td>
+                    <td th:text="${uu.cost}"></td>
+                </tr>
+           </tbody>
+       </table>
+
+
+
+    </div>
+</div>

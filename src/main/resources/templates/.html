@@ -21,7 +21,6 @@
             <tbody>
             <tr th:each="pdl : ${pzdlist}">
                 <td th:text="${pdl.nomer}"></td>
-                <!-- <td th:text="${pdl.datetime}"></td> -->
                 <td th:text="${#temporals.format(pdl.datetime, 'dd.MM.yyyy HH:mm')}"></td>
                 <td th:text="${pdl.marshrut}"></td>
                 <td th:text="${pdl.platsckart}"></td>

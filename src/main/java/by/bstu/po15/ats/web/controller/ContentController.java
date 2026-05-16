@@ -2,15 +2,18 @@ package by.bstu.po15.ats.web.controller;
 
 
 import by.bstu.po15.ats.web.dto.UserDto;
-import by.bstu.po15.ats.web.entity.User;
-import by.bstu.po15.ats.web.entity.newPassData;
-import by.bstu.po15.ats.web.repository.PoezdTabloRepository;
-import by.bstu.po15.ats.web.repository.UserRepository;
-import by.bstu.po15.ats.web.repository.VgTypesRepository;
+import by.bstu.po15.ats.web.entity.*;
+import by.bstu.po15.ats.web.repository.*;
+import by.bstu.po15.ats.web.service.Poezd_placesService;
 import by.bstu.po15.ats.web.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,6 +41,10 @@ public class ContentController
     private final VgTypesRepository vgTypesRepository;
 
     private final PoezdTabloRepository poezdTabloRepository;
+    private final Poezd_placesRepository poezdPlacesRepository;
+    private final Poezd_placesService poezdPlacesService;
+    private final TicketsRepository ticketsRepository;
+    private final UserTicketsRepository userTicketsRepository;
 
     private BCryptPasswordEncoder passEncoder = new BCryptPasswordEncoder();
 
@@ -73,11 +82,79 @@ public class ContentController
     {   model.addAttribute("currentUri", request.getRequestURI());
         Long id = Long.parseLong(request.getParameter("uid"));      // Считали код поезда
 
+        model.addAttribute("pzd", poezdTabloRepository.findById(id).get()  );
+        model.addAttribute( "pls", poezdPlacesService.findByPoezd(id));
+
+        return "main";
+    }
+
+    @GetMapping("/user/ticketpl")
+    public String NumTicket(HttpServletRequest request, Model model)
+    {   model.addAttribute("currentUri", request.getRequestURI());
+        Long id = Long.parseLong(request.getParameter("uid"));      // Считали код поезда
+        Long plid = Long.parseLong(request.getParameter("pid"));    // Считали код вагона
+
+        Long Count = 0L;
+        model.addAttribute("pzd", poezdTabloRepository.findById(id).get()  );
+        model.addAttribute( "pls", poezdPlacesRepository.findById(plid).get() );
+        model.addAttribute("cnt", Count);
+        return "main";
+    }
+
+    @PostMapping("/user/ticketpl")
+    public String MakePayTicket(HttpServletRequest request, Long cnt, Model model, Principal principal )
+    {   model.addAttribute("currentUri", request.getRequestURI());
+        Long id = Long.parseLong(request.getParameter("uid"));      // Считали код поезда
+        Long plid = Long.parseLong(request.getParameter("pid"));    // Считали код вагона
+
+        Long userId=userRepository.findByEmail(principal.getName()).getId();//  Получили Id Пользователя
+
+        Poezd_places pls= poezdPlacesRepository.findById(plid).get();
+        if( (cnt != null) && (userId !=0) )
+        {   Poezd_places pl = poezdPlacesRepository.findById(plid).get();
+            pl.setFree_places(pl.getFree_places()-cnt);
+            poezdPlacesRepository.save(pl);
+
+
+            Tickets tt = new Tickets();
+            tt.setUser_id(userId);
+            tt.setPoezd_places_id(plid);
+            tt.setCount(cnt);
+            tt.setCost(pls.getCost());
+
+            ticketsRepository.save(tt);
+
+            return "redirect:/";
+        }
+        model.addAttribute("pzd", poezdTabloRepository.findById(id).get()  );
+        model.addAttribute( "pls", pls );
+        model.addAttribute("cnt", cnt );
+        model.addAttribute("error", "Ошибка покупки " );
+        return "main";
+    }
+
+    @GetMapping("/user/mytickets")
+    public String MyTickets(HttpServletRequest request, Model model, Principal principal)
+    {   model.addAttribute("currentUri", request.getRequestURI());
+
+        Long userId=userRepository.findByEmail(principal.getName()).getId();//  Получили Id Пользователя
+        UserTickets probe = new UserTickets();
+        probe.setUser_id(userId);
+        Example<UserTickets> exmp = Example.of(probe);
+
+        model.addAttribute("ust", userTicketsRepository.findAll(exmp, Sort.by("datetime").descending()));
 
 
         return "main";
     }
 
+    @GetMapping("/admin/ticketslist")
+    public String ListAllTickets(HttpServletRequest request, Model model)
+    {   model.addAttribute("currentUri", request.getRequestURI());
+
+        model.addAttribute("ust", userTicketsRepository.findAll(Sort.by("datetime").descending()));
+        return "main";
+    }
 
     /**
      * Maps the home alias page.

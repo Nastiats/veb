@@ -1,0 +1,41 @@
+
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Покупка билета. Выберите вагон:</h2>
+            Поезд № <span th:text="${pzd.nomer}"></span>&nbsp;
+            <span th:text="${#temporals.format(pzd.datetime, 'dd.MM.yyyy HH:mm')}"></span></br>
+            <span th:text="${pzd.marshrut}"></span>
+            </br>
+
+            <table>
+                <thread>
+                    <tr>
+                        <th>Номер</th>
+                        <th>Тип</th>
+                        <th>Мест в наличии</th>
+                        <th>Цена билета</th>
+                          <th>Операции</th>
+                    </tr>
+                </thread>
+                <tbody>
+                <tr th:each="pdl : ${pls}">
+                    <td th:text="${pdl.vgnum}"></td>
+                    <td th:text="${pdl.vgname}"></td>
+                    <td th:text="${pdl.free_places}"></td>
+                    <td th:text="${pdl.cost}"></td>
+                    <td>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div><a th:href="@{/user/ticketpl(uid=${pdl.poezd_id},pid=${pdl.id})}">[Купить билет]</a>&nbsp;</div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+    </div>
+</div>

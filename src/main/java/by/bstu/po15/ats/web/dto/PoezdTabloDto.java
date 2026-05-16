@@ -12,7 +12,8 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @Immutable
 @Getter
-public class PoezdTabloDto {
+public class PoezdTabloDto
+{
     private Long id;    // Идентификатор поезда
 
     private String nomer;   // номер поезда
