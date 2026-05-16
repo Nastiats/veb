@@ -4,7 +4,9 @@ package by.bstu.po15.ats.web.controller;
 import by.bstu.po15.ats.web.dto.UserDto;
 import by.bstu.po15.ats.web.entity.User;
 import by.bstu.po15.ats.web.entity.newPassData;
+import by.bstu.po15.ats.web.repository.PoezdTabloRepository;
 import by.bstu.po15.ats.web.repository.UserRepository;
+import by.bstu.po15.ats.web.repository.VgTypesRepository;
 import by.bstu.po15.ats.web.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -18,16 +20,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class ContentController
-{
+{   private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.YYYY HH:mm");
 
     private final UserService userService;
 
     private final UserRepository userRepository;
+
+    private final VgTypesRepository vgTypesRepository;
+
+    private final PoezdTabloRepository poezdTabloRepository;
 
     private BCryptPasswordEncoder passEncoder = new BCryptPasswordEncoder();
 
@@ -39,6 +47,13 @@ public class ContentController
     { return passEncoder.matches(rawPass, OldHash);
 
     }
+    private String zonedDateTimeToTimeStamp(ZonedDateTime zdt, boolean flag )
+    {   String tms = zdt.toLocalDateTime()
+            .format(dateFormat);
+        if(flag)
+            tms= tms.replace(' ', 'T');
+        return tms;
+    }
 
     /**
      * Maps the home page.
@@ -47,10 +62,22 @@ public class ContentController
      */
     @GetMapping("/")
     public String home(HttpServletRequest request, Model model)
-    {   // return "home";
+    {   // Главная страница;
         model.addAttribute("currentUri", request.getRequestURI());
+        model.addAttribute("pzdlist", poezdTabloRepository.findAll());
         return "main";
     }
+
+    @GetMapping("/user/ticket")
+    public String findTicket(HttpServletRequest request, Model model)
+    {   model.addAttribute("currentUri", request.getRequestURI());
+        Long id = Long.parseLong(request.getParameter("uid"));      // Считали код поезда
+
+
+
+        return "main";
+    }
+
 
     /**
      * Maps the home alias page.

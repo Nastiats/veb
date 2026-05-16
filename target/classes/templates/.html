@@ -1,3 +1,41 @@
 <div th:fragment="body">
-    <h2>Главная страница</h2>
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Расписание поездов</h2>
+        </div>
+         <table >
+            <thread>
+                <tr>
+                    <th>Номер</th>
+                    <th>Отправление</th>
+                    <th>Маршрут</th>
+                    <th>Плацкарт</th>
+                    <th>Купе</th>
+                    <th>Общиих</th>
+                    <th>Спальных</th>
+                    <th>Сидячих</th>
+                    <th>Операции</th>
+                </tr>
+            </thread>
+            <tbody>
+            <tr th:each="pdl : ${pzdlist}"><a th:href="@{/user/ticket(uid=${pdl.id})}">
+                <td th:text="${pdl.nomer}"></td>
+                <!-- <td th:text="${pdl.datetime}"></td> -->
+                <td th:text="${#temporals.format(pdl.datetime, 'dd.MM.yyyy HH:mm')}"></td>
+                <td th:text="${pdl.marshrut}"></td>
+                <td th:text="${pdl.platsckart}"></td>
+                <td th:text="${pdl.kupe}"></td>
+                <td th:text="${pdl.common}"></td>
+                <td th:text="${pdl.spalnyi}"></td>
+                <td th:text="${pdl.sitten}"></td>
+                <td>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div><a th:href="@{/user/ticket(uid=${pdl.id})}">[Купить билет]</a>&nbsp;</div>
+                    </div>
+                </td></a>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

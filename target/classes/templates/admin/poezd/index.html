@@ -1,0 +1,37 @@
+<div th:fragment="body">
+
+    <div class="containeer">
+        <div class="row col-md-10">
+            <h2>Формирование поездов</h2>
+        </div>
+        <div>
+            <a th:href="@{/admin/poezd/new}">[Новый]</a>
+        </div>
+        <table >
+            <thread>
+                <tr>
+                    <th>Номер</th>
+                    <th>Дата и время отправления</th>
+                    <th>Маршрут</th>
+                    <th>Операции</th>
+                </tr>
+            </thread>
+            <tbody>
+            <tr th:each="tbl : ${pzd}">
+                <td th:text="${tbl.nomer}"></td>
+                <td th:text="${tbl.edit_datetime}"></td>
+                <td th:text="${tbl.marshrut_name}"></td>
+                <td>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div><a th:href="@{/admin/poezd/edit(uid=${tbl.id})}">[Правка]</a>&nbsp;</div>
+                        <div><a th:href="@{/admin/poezd/delete(uid=${tbl.id})}">[Удалить]</a>&nbsp;</div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <a th:href="@{/admin/poezd/new}">[Новый]</a>
+        </div>
+    </div>
+</div>
