@@ -24,6 +24,9 @@ import java.time.ZonedDateTime;
 @Table(name="usertickets")
 public class UserTickets
 {   @Id
+    private Long Id;    // Идентификатор билетной записи
+
+    @Column(nullable = false)
     private Long user_id;   //  Идентификатор пользователя
 
     @Column(nullable = false)

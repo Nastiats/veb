@@ -30,6 +30,10 @@ public class PoezdTablo
     @Column(nullable = false)
     private String marshrut;   //  Название маршрута
 
+    public void setMarshrut(String marshrut)
+    {   this.marshrut = marshrut;
+    }
+
     @Column(nullable = false)
     private Long platsckart;    // Свободно в плацкарте
 

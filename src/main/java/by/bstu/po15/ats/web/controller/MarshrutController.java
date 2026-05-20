@@ -2,10 +2,15 @@ package by.bstu.po15.ats.web.controller;
 
 
 import by.bstu.po15.ats.web.entity.Marshrut;
+import by.bstu.po15.ats.web.entity.PoezdTablo;
 import by.bstu.po15.ats.web.repository.MarshrutRepository;
+import by.bstu.po15.ats.web.repository.PoezdTabloRepository;
 import by.bstu.po15.ats.web.service.MarshrutService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,10 +23,14 @@ public class MarshrutController
 {   private final MarshrutService marshrutService;
     private final MarshrutRepository marshrutRepository;
 
+    private final PoezdTabloRepository poezdTabloRepository;
+
     @GetMapping("/admin/marshrut/index")
-    public String showVgTypesList(HttpServletRequest request, Model model)
+    public String showVgTypesList(HttpServletRequest request, Model model, @SortDefault("numer") Pageable pageable)
     {   model.addAttribute("currentUri", request.getRequestURI());
-        model.addAttribute("mar", marshrutRepository.findAll());
+    //    model.addAttribute("mar", marshrutRepository.findAll());
+        Page<Marshrut> lust = marshrutRepository.findAll(pageable);
+        model.addAttribute("mar",lust);
         return "main";
     }
 

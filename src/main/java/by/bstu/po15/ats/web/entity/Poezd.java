@@ -32,6 +32,6 @@ public class Poezd
     @Column(nullable = false)
     private Long marshrut_id;   //  Идентификтора маршрута
 
-    private String marshrut_name;   //  Название маршрута
-    private String edit_datetime;   // Временно, для редактирования даты-времени в Браузере
+    private String marshrutname;   //  Название маршрута
+    private String editdatetime;   // Временно, для редактирования даты-времени в Браузере
 }

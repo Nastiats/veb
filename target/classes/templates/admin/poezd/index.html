@@ -19,8 +19,8 @@
             <tbody>
             <tr th:each="tbl : ${pzd}">
                 <td th:text="${tbl.nomer}"></td>
-                <td th:text="${tbl.edit_datetime}"></td>
-                <td th:text="${tbl.marshrut_name}"></td>
+                <td th:text="${tbl.editdatetime}"></td>
+                <td th:text="${tbl.marshrutname}"></td>
                 <td>
                     <div style="display: flex; justify-content: space-between;">
                         <div><a th:href="@{/admin/poezd/edit(uid=${tbl.id})}">[Правка]</a>&nbsp;</div>
@@ -30,6 +30,22 @@
             </tr>
             </tbody>
         </table>
+        <BR/>
+        <div class="row">
+            <div class="col-sm-6" >
+                <div sd:pagination-summary=""  sd:page-object="${pzd}">info</div>
+            </div>
+            <div class="col-sm-6">
+                <nav class="pull-right">
+                    <ul class="pagination" sd:pagination-split="7" sd:pagination="full" sd:page-object="${pzd}">
+                        <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
         <div>
             <a th:href="@{/admin/poezd/new}">[Новый]</a>
         </div>

@@ -15,7 +15,10 @@ import java.time.ZonedDateTime;
 @Immutable
 @Getter
 public class UserTicketsDto
-{   private Long user_id;   //  Идентификатор пользователя
+{
+    private Long Id;    // Идентификатор билетной записи
+
+    private Long user_id;   //  Идентификатор пользователя
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private ZonedDateTime datetime;    //  Дата и время отправление

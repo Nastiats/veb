@@ -9,8 +9,9 @@ import by.bstu.po15.ats.web.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.*;
+import org.springframework.data.web.SortDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,10 +71,28 @@ public class ContentController
      * @return the view name for the home page
      */
     @GetMapping("/")
-    public String home(HttpServletRequest request, Model model)
+    public String home(HttpServletRequest request, Model model,  @SortDefault("datetime") Pageable pageable)
     {   // Главная страница;
         model.addAttribute("currentUri", request.getRequestURI());
-        model.addAttribute("pzdlist", poezdTabloRepository.findAll());
+        String FindPattern = request.getParameter("find");
+        Page<PoezdTablo> lust;
+
+        if( (FindPattern!=null) && (FindPattern != "") )
+        {   PoezdTablo probe = new PoezdTablo();
+            probe.setMarshrut(FindPattern);
+
+            ExampleMatcher matcher = ExampleMatcher.matching()
+                    .withIgnoreCase()
+                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+            Example<PoezdTablo> exmp = Example.of(probe,matcher);
+
+            lust = poezdTabloRepository.findAll(exmp, pageable);
+        }
+        else
+        {   lust = poezdTabloRepository.findAll(pageable);
+        }
+        model.addAttribute("pzdlist", lust );
+        model.addAttribute("find", FindPattern);
         return "main";
     }
 
@@ -134,7 +153,7 @@ public class ContentController
     }
 
     @GetMapping("/user/mytickets")
-    public String MyTickets(HttpServletRequest request, Model model, Principal principal)
+    public String MyTickets(HttpServletRequest request, Model model, Principal principal, @SortDefault("datetime") Pageable pageable)
     {   model.addAttribute("currentUri", request.getRequestURI());
 
         Long userId=userRepository.findByEmail(principal.getName()).getId();//  Получили Id Пользователя
@@ -142,17 +161,18 @@ public class ContentController
         probe.setUser_id(userId);
         Example<UserTickets> exmp = Example.of(probe);
 
-        model.addAttribute("ust", userTicketsRepository.findAll(exmp, Sort.by("datetime").descending()));
-
+        Page<UserTickets> lust = userTicketsRepository.findAll(exmp,pageable);
+        model.addAttribute("ust", lust );
 
         return "main";
     }
 
     @GetMapping("/admin/ticketslist")
-    public String ListAllTickets(HttpServletRequest request, Model model)
+    public String ListAllTickets(HttpServletRequest request, Model model, @SortDefault("datetime") Pageable pageable)
     {   model.addAttribute("currentUri", request.getRequestURI());
 
-        model.addAttribute("ust", userTicketsRepository.findAll(Sort.by("datetime").descending()));
+        Page<UserTickets> lust =  userTicketsRepository.findAll(pageable);
+        model.addAttribute("ust", lust);
         return "main";
     }
 

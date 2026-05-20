@@ -12,7 +12,10 @@ import by.bstu.po15.ats.web.service.MarshrutService;
 import by.bstu.po15.ats.web.service.PoezdService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,22 +59,22 @@ public class PoezdController {
                 );
     }
 
-    public List<Poezd> BuildPoezdList() {
-        List<Poezd> pzd = poezdRepository.findAll(
-                Sort.by("datetime").ascending()
-            );
+    public Page<Poezd> BuildPoezdList(Pageable pageable) {
+        Page<Poezd> pzd = poezdRepository.findAll(pageable );
         for (Poezd sts : pzd)
-        {   sts.setMarshrut_name(marshrutService.FindNameMarshrut(sts.getMarshrut_id()));
-            sts.setEdit_datetime( zonedDateTimeToTimeStamp(sts.getDatetime(), false ));
+        {   sts.setMarshrutname(marshrutService.FindNameMarshrut(sts.getMarshrut_id()));
+            sts.setEditdatetime( zonedDateTimeToTimeStamp(sts.getDatetime(), false ));
         }
         return pzd;
     }
 
     @GetMapping("/admin/poezd/index")
-    public String showPoezdList(HttpServletRequest request, Model model)
+    public String showPoezdList(HttpServletRequest request, Model model, @SortDefault("nomer") Pageable pageable)
     {
         model.addAttribute("currentUri", request.getRequestURI());
-        model.addAttribute("pzd", BuildPoezdList());
+        // model.addAttribute("pzd", BuildPoezdList());
+        model.addAttribute("pzd", BuildPoezdList(pageable) );
+
         return "main";
 
     }
@@ -82,8 +85,8 @@ public class PoezdController {
         Long id = Long.parseLong(request.getParameter("uid"));      // Считали код поезда
 
         Poezd curPoezd = poezdService.findById(id);
-        curPoezd.setEdit_datetime( zonedDateTimeToTimeStamp(curPoezd.getDatetime() ));
-        curPoezd.setMarshrut_name(marshrutService.FindNameMarshrut(curPoezd.getMarshrut_id()));
+        curPoezd.setEditdatetime( zonedDateTimeToTimeStamp(curPoezd.getDatetime() ));
+        curPoezd.setMarshrutname(marshrutService.FindNameMarshrut(curPoezd.getMarshrut_id()));
 
         model.addAttribute("pzd", curPoezd);
 
@@ -100,7 +103,7 @@ public class PoezdController {
 
             bpoezd.setNomer(pzd.getNomer());
             // bpoezd.setDatetime(pzd.getDatetime());
-            bpoezd.setDatetime( timestampToZonedDateTime(pzd.getEdit_datetime()) );
+            bpoezd.setDatetime( timestampToZonedDateTime(pzd.getEditdatetime()) );
             bpoezd.setMarshrut_id(marshrut_id);
 
             poezdRepository.save(bpoezd);
@@ -120,7 +123,7 @@ public class PoezdController {
         Poezd curPoezd = new Poezd();
         curPoezd.setMarshrut_id(0L);
         curPoezd.setDatetime(ZonedDateTime.now());
-        curPoezd.setEdit_datetime(zonedDateTimeToTimeStamp(curPoezd.getDatetime() ));
+        curPoezd.setEditdatetime(zonedDateTimeToTimeStamp(curPoezd.getDatetime() ));
 
         model.addAttribute("pzd", curPoezd);
 
@@ -147,7 +150,7 @@ public class PoezdController {
 
             bpoezd.setNomer(pzd.getNomer());
             // bpoezd.setDatetime(pzd.getDatetime());
-            bpoezd.setDatetime( timestampToZonedDateTime(pzd.getEdit_datetime()) );
+            bpoezd.setDatetime( timestampToZonedDateTime(pzd.getEditdatetime()) );
             bpoezd.setMarshrut_id(pzd.getMarshrut_id());
 
             poezdRepository.save(bpoezd);
@@ -178,8 +181,8 @@ public class PoezdController {
         Long id = Long.parseLong(request.getParameter("uid"));      // Считали код поезда
 
         Poezd curPoezd = poezdService.findById(id);
-        curPoezd.setEdit_datetime( zonedDateTimeToTimeStamp(curPoezd.getDatetime() ));
-        curPoezd.setMarshrut_name(marshrutService.FindNameMarshrut(curPoezd.getMarshrut_id()));
+        curPoezd.setEditdatetime( zonedDateTimeToTimeStamp(curPoezd.getDatetime() ));
+        curPoezd.setMarshrutname(marshrutService.FindNameMarshrut(curPoezd.getMarshrut_id()));
 
         model.addAttribute("pzd", curPoezd);
 

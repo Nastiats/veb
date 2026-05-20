@@ -127,8 +127,26 @@ button:hover
   tr:hover {background-color: #f5f5f5;}
   tr:nth-child(even) {background-color: #f2f2f2;}
   th { background-color: #4CAF50; color: white; }
+
+  .findtext
+  { width: 100%;
+    margin-bottom: 8px;
+  }
 select
 { font-size: 18px; /* Размер шрифта */
   padding: 5px; /* Поля вокруг текста */
   text-align: left; /* Выравнивание по девому краю */
+}
+
+table.table thead .sorted:after{
+	display: inline-block;
+	font-family: 'FontAwesome';
+	opacity: 0.8;
+	margin-left: 1em;
+}
+table.table thead .sorted.sorted-desc:after{
+	content: "\f15e";
+}
+table.table thead .sorted.sorted-asc:after{
+	content: "\f15d";
 }
