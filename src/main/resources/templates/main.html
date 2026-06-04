@@ -1,59 +1,125 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head lang="ru">
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Продажа билетов</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/nst.css}" />
-    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<head lang="ru"><meta charset="UTF-8"/>
+<title>Продажа билетов</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/ticketsmain.css}" />
 
-</head><body>
-<div id="header"><h1>Продажа билетов</h1></div>
-<div id="sidebar">
-    <div th:if="${#authorization.expression('isAuthenticated()')}">
-        <h2><div th:text="${#authentication.name}">LOGIN</div></h2>
-        <a class="btn" th:href="@{/logout}">Выход</a>
-        <a class="btn" th:href="@{/}">Главная страница</a>
-    </div>
-    <div th:unless="${#authorization.expression('isAuthenticated()')}">
-        <a class="btn" th:href="@{/login}">Вход</a>
-        <a class="btn" th:href="@{/new}">Регистрация</a>
-    </div>
-    <div th:if="${#authorization.expression('hasRole(''USER'')')}">
-        <a class="btn" th:href="@{/user/home}">Личный кабинет</a>
-    </div>
-    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-        <a class="btn" th:href="@{/user/home}">Личный кабинет</a>
-        <a class="btn" th:href="@{/admin/home}">Администрирование</a>
-    </div>
-</div>
-<div id="content">
-    <div th:unless="${#authorization.expression('isAuthenticated()')}">
-        <!-- Вход не выполнен -->
-        <div th:insert="~{nologin :: body}"></div>
-    </div>
-    <div th:if="${#authorization.expression('isAuthenticated()')}">
-        <!-- Вход выполнен -->
-        <div style="display: flex; justify-content: space-between;">
-            <div th:unless="${#strings.isEmpty(error)}">
-                <div id="error">
-                    <span th:text="|${error}|"></span>
-                </div>
-            </div>
-            <div th:unless="${#strings.isEmpty(message)}">
-                <div id="message">
-                    <span th:text="|${message}|"></span>
-                </div>
-            </div>
-        </div>
+</head>
+<!-- <body class="is-preload left-sidebar"> -->
+<body class="is-preload homepage">
+	<div id="preloader">
+		<div class="spinner"></div>
+	</div>
+	<div id="page-wrapper">
+	<!-- Header -->
+		<div id="header-wrapper">
+			<header id="header" class="container">
+				<div id="logo">
+					<h1><a>Продажа билетов</a></h1>
+					<span th:if="${#authorization.expression('isAuthenticated()')}">
+						<h2 th:text="${#authentication.name}">LOGIN</h2>
+					</span>
+				</div>
+				<nav id="nav">
+					<ul th:unless="${#authorization.expression('isAuthenticated()')}">
+						<li><a th:href="@{/login}">Вход</a></li>
+						<li><a th:href="@{/new}">Регистрация</a></li>
+					</ul>
+					<ul th:if="${#authorization.expression('isAuthenticated()')}">
+						<li><a th:href="@{/logout}">Выход</a></li>
+						<li><a th:href="@{/}">Главная</a></li>
+<!--						<li><a th:href="@{/user/home}">Личный кабинет</a> -->
+						<li><a href="#">Личный кабинет</a>
+							<ul>
+								<li><a th:href="@{/user/setpass}">Изменить пароль</a></li>
+								<li><a th:href="@{/user/mytickets}">Мои билеты</a></li>
+							</ul>
+						</li>
+						<li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+<!--							<a th:href="@{/admin/home}">Администрирование</a> -->
+							<a href="#">Администрирование</a>
+							<ul>
+								<li><a th:href="@{/admin/auth}">Список пользователей</a></li>
+								<li><a th:href="@{/admin/ticketslist}">Список проданных билетов</a></li>
+								<li><a th:href="@{/admin/vgtypes/index}">Типы вагонов</a></li>
+								<li><a th:href="@{/admin/marshrut/index}">Маршруты</a></li>
+								<li><a th:href="@{/admin/sostav/index}">Формирование составов</a></li>
+								<li><a th:href="@{/admin/poezd/index}">Управление поездами</a></li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</header>
+		</div>
 
-        <!-- Получаем URI запроса -->
-        <div th:insert="~{${currentUri} :: body}"></div>
-    </div>
+		<!-- Main -->
+		<div id="main-wrapper">
+			<div class="container">
+				<div class="row gtr-200">
+					<div class="col-8 col-12-medium imp-medium">
+						<div id="content">
+							<div th:unless="${#authorization.expression('isAuthenticated()')}">
+								<!-- Вход не выполнен -->
+								<div th:insert="~{nologin :: body}"></div>
+							</div>
+							<div th:if="${#authorization.expression('isAuthenticated()')}">
+								<!-- Вход выполнен -->
+								<div style="display: flex; justify-content: space-between;">
+									<div th:unless="${#strings.isEmpty(error)}">
+										<div id="error">
+											<span th:text="|${error}|"></span>
+										</div>
+									</div>
+									<div th:unless="${#strings.isEmpty(message)}">
+										<div id="message">
+											<span th:text="|${message}|"></span>
+										</div>
+									</div>
+								</div>
+								<!-- Получаем URI запроса -->
+								<div th:insert="~{${currentUri} :: body}"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Footer -->
+		<div id="footer-wrapper">
+			<footer id="footer" class="container">
+				<div class="row">
+					<div class="col-12">
+						<div id="copyright">
+							<ul class="menu">
+								<li>&copy; 2026, Настя Цыганок</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
 
-</div>
-<div id="footer">&copy; 2026 - Настя Цыганок</div>
+	<script type="text/javascript" th:src="@{/assets/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/jquery.dropotron.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/browser.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/breakpoints.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/util.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/ticketmain.js}"></script>
+
+	<script type="text/javascript">
+		window.addEventListener('load', function()
+		{	const preloader = document.getElementById('preloader');
+			preloader.style.opacity = '0';
+
+			// Удаляем элемент из DOM после завершения анимации исчезновения
+			setTimeout(
+				function()
+				{	preloader.style.display = 'none';
+				}, 500);
+		});
+	</script>
 </body>
 </html>

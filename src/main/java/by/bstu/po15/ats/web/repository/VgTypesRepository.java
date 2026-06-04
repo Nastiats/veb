@@ -8,5 +8,4 @@ import java.util.Optional;
 
 public interface VgTypesRepository extends JpaRepository<VgTypes,Long>
 {
-
 }
