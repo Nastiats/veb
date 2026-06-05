@@ -25,6 +25,7 @@
                     <a th:href="@{/admin/sostav/new(mrs=${mrs})}">[Новый]</a>
                 </div>
                 <div th:if="${sost != null and sost.size() > 0}">
+                <div class="table-container">
                 <table >
                     <thread>
                         <tr>
@@ -48,6 +49,7 @@
                     </tr>
                     </tbody>
                 </table>
+                </div>
                 </div>
                 <div th:if="${mrs != 0 }">
                     <a th:href="@{/admin/sostav/new(mrs=${mrs})}">[Новый]</a>

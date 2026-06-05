@@ -2714,3 +2714,50 @@ input, select, textarea {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+#error
+{ font-size: 18px; /* Размер шрифта */
+  padding: 5px; /* Поля вокруг текста */
+  color: red; /* Цвет текста */
+  text-align: center; /* Выравнивание по середине */
+}
+
+#message
+{ font-size: 18px; /* Размер шрифта */
+  padding: 5px; /* Поля вокруг текста */
+  color: green; /* Цвет текста */
+  text-align: center; /* Выравнивание по середине */
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* Adds the horizontal scrollbar when needed */
+}
+  table { width: 100%; border-collapse: collapse; overflow-x: auto; }
+  th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; white-space: nowrap; }
+  tr:hover {background-color: #f5f5f5;}
+  tr:nth-child(even) {background-color: #f2f2f2;}
+  th { background-color: #4CAF50; color: white; }
+
+  .findtext
+  { width: 100%;
+    margin-bottom: 8px;
+  }
+select
+{ font-size: 18px; /* Размер шрифта */
+  padding: 5px; /* Поля вокруг текста */
+  text-align: left; /* Выравнивание по девому краю */
+}
+
+table.table thead .sorted:after{
+	display: inline-block;
+	font-family: 'FontAwesome';
+	opacity: 0.8;
+	margin-left: 1em;
+}
+table.table thead .sorted.sorted-desc:after{
+	content: "\f15e";
+}
+table.table thead .sorted.sorted-asc:after{
+	content: "\f15d";
+}
